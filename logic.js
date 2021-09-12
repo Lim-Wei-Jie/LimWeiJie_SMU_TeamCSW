@@ -3,7 +3,7 @@ const robotData = require("./data");
 function totalRate(shift) {
 
     let totalMinObj = totalMinutes(shift) // { standardDay: 0, standardNight: 0, extraDay: 0, extraNight: 0 }
-    console.log(totalMinObj);
+    
     let output = 0
     Object.keys(totalMinObj).forEach(function(key) {
         let shiftType = key
