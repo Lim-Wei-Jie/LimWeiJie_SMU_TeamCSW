@@ -3,13 +3,14 @@ const robotData = require("./data");
 function totalRate(shift) {
 
     let totalMinObj = totalMinutes(shift) // { standardDay: 0, standardNight: 0, extraDay: 0, extraNight: 0 }
-
+    console.log(totalMinObj);
     let output = 0
     Object.keys(totalMinObj).forEach(function(key) {
         let shiftType = key
-        let shiftTypeHr = totalMinObj[key]
+        let shiftTypeHr = totalMinObj[key] // 
         let shiftValue = robotData[shiftType]["value"]
-        output += (shiftTypeHr - Math.floor(shiftTypeHr/8)) * shiftValue * 60
+
+        output += (shiftTypeHr) * shiftValue * 60
     });
     
     return output
@@ -86,6 +87,10 @@ function totalMinutes(shift) {
                 if (start_time != 2400) {
                     start_time += 100
                     morning_weekend_count += 1
+					// accounting for breaks
+					if (morning_weekend_count % 8 == 0 && start_time != end_time) {
+						start_time += 100
+					}
                 }
                 if (start_time == 2400) {
                     start_time = 0
@@ -118,6 +123,10 @@ function totalMinutes(shift) {
                 if (start_time != 2400) {
                     start_time += 100
                     night_weekend_count += 1
+					// accounting for breaks
+					if (night_weekend_count % 8 == 0 && start_time != end_time) {
+						start_time += 100
+					}
                 }
                 if (start_time == 2400) {
                     start_time = 0
@@ -148,7 +157,6 @@ function totalMinutes(shift) {
                         let min_left_to_next_hr = 60 - minutes
                         start_time += min_left_to_next_hr + 40 // making it the next hour
                         morning_weekday_count += min_left_to_next_hr/60
-                        
                     }
                 }
 
@@ -156,6 +164,10 @@ function totalMinutes(shift) {
                 if (start_time != 2400) {
                     start_time += 100
                     morning_weekday_count += 1
+					// accounting for breaks
+					if (morning_weekday_count % 8 == 0 && start_time != end_time) {
+						start_time += 100
+					}
                 }
                 if (start_time == 2400) {
                     start_time = 0
@@ -188,6 +200,10 @@ function totalMinutes(shift) {
                 if (start_time != 2400) {
                     start_time += 100
                     night_weekday_count += 1
+					// accounting for breaks
+					if (night_weekday_count % 8 == 0 && start_time != end_time) {
+						start_time += 100
+					}
                 }
                 if (start_time == 2400) {
                     start_time = 0
@@ -201,7 +217,6 @@ function totalMinutes(shift) {
 
         }
 
-        // break
         if (start_day == end_day && start_month == end_month && start_time == end_time) {
             truth = false
         }
